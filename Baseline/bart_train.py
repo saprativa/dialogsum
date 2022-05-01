@@ -4,7 +4,7 @@ from transformers import AutoModelForSeq2SeqLM, DataCollatorForSeq2Seq, Seq2SeqT
 from transformers import AutoTokenizer
 import os
 
-os.environ['CUDA_VISIBLE_DEVICES']="0,4"
+os.environ['CUDA_VISIBLE_DEVICES']="2,4"
 
 model_checkpoint = "facebook/bart-large"
 metric = load_metric("rouge.py")
@@ -79,6 +79,7 @@ args = Seq2SeqTrainingArguments(
     greater_is_better=True,
     seed=42,
     generation_max_length=max_target_length,
+    report_to="none"
 )
 
 
@@ -146,5 +147,5 @@ decoded_labels = [" ".join(nltk.sent_tokenize(label.strip())) for label in decod
 # output summaries on test set
 with open("test_output.txt","w") as f: 
     for i in decoded_preds:
-        print(i)
+        # print(i)
         f.write(i.replace("\n","")+"\n")
